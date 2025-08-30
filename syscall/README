@@ -1,9 +1,17 @@
-This lab had 2 questions to implement trace sys_call and attack.6
-I'll focus first on attack.c.The xv6 kernel isolates user programs from each other and isolates the kernel from user programs. An application cannot directly call a function in the kernel or in another user program; instead, interactions occur only through system calls. However, if there is a bug in the implementation of a system call, an attacker may be able to exploit that bug to break the isolation boundaries. To get a sense for how bugs can be exploited, we have introduced a bug into xv6 and your goal is to exploit that bug to trick xv6 into revealing a secret from another process.
-The bug is that the call to memset(mem, 0, sz) at line 272 in kernel/vm.c to clear a newly-allocated page is omitted when compiling this lab. Similarly, when compiling kernel/kalloc.c for this lab the two lines that use memset to put garbage into free pages are omitted. The net effect of omitting these 3 lines (all marked by ifndef LAB_SYSCALL) is that newly allocated memory retains the contents from its previous use.
-user/secret.c writes an 8-byte secret in its memory and then exits (which frees its memory). Your goal is to add a few lines of code to user/attack.c to find the secret that a previous execution of secret.c wrote to memory, and write the 8 secret bytes to file descriptor 2. You'll receive full credit if attacktest prints: "OK: secret is ebb.ebb". (Note: the secret may be different for each run of attacktest.)
-You are allowed to modify user/attack.c, but you cannot make any other changes: you cannot modify the xv6 kernel sources, secret.c, attacktest.c, etc. 
-SOLUTION:
-Firstly it is important to understand the RISC-V 3 level pagetable
+This lab had 2 questions to implement `trace_sys_call` and `attack.c`.
+
+I'll focus first on `attack.c`. The xv6 kernel isolates user programs from each other and isolates the kernel from user programs. An application cannot directly call a function in another program.
+
+The bug is that the call to `memset(mem, 0, sz)` at line 272 in `kernel/vm.c` to clear a newly-allocated page is omitted when compiling this lab. Similarly, when compiling, `user/secret.c` writes an 8-byte secret in its memory and then exits (which frees its memory). Your goal is to add a few lines of code to `user/attack.c` to find the secret.
+
+You are allowed to modify `user/attack.c`, but you cannot make any other changes: you cannot modify the xv6 kernel sources, `secret.c`, `attacktest.c`, etc.
+
+---
+
+### SOLUTION:
+
+Firstly, it is important to understand the RISC-V 3-level page table.
+
 Here is a handwritten note explaining 3-level page tables in RISC-V:
-[View Handwritten Node PDF] ()
+
+[View Handwritten Note PDF](https://github.com/Sarthaki2005/xv6-lab-2024-solutions/blob/main/attack%5B1%5D.PDF)
