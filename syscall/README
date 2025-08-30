@@ -5,3 +5,5 @@ user/secret.c writes an 8-byte secret in its memory and then exits (which frees 
 You are allowed to modify user/attack.c, but you cannot make any other changes: you cannot modify the xv6 kernel sources, secret.c, attacktest.c, etc. 
 SOLUTION:
 Firstly it is important to understand the RISC-V 3 level pagetable
+Here is a handwritten note explaining 3-level page tables in RISC-V:
+[View Handwritten Node PDF] ()
